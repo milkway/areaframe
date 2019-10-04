@@ -3,10 +3,10 @@ title       : Web Applications for Area frame
 subtitle    : Some good subtitle 
 author      : André Leite
 job         : Professor
-framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+framework   : shower        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : [mathjax]            # {mathjax, quiz, bootstrap}
+widgets     : [mathjax, bootstrap]            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
