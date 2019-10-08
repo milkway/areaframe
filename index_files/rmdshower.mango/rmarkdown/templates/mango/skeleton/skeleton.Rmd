@@ -1,52 +1,25 @@
 ---
 title: "Shower Presentations with R Markdown"
-author: André Leite
+subtitle: "hello doug"
+author: "Your Name"
+email: "youremail@mango-solutions.com"
+ratio: 16x10
+maketitle: true
 output:
   rmdshower::shower_presentation:
-    theme: material
     self_contained: false
-    highlight: default
     katex: true
-    smart: true
-    ratio: 16x10
+    theme: mango
 ---
 
-## Shower Presentations with R Markdown { .white }
+## Shower Presentations with R Markdown
 
-<img src="images/elchaiten.jpg" class="cover">
-
-<p class="white">
+<p>
 Get it from GitHub: https://github.com/mangothecat/rmdshower.
 </p>
-
-
-<style>
-.slide pre code {
-    display: block;
-    line-height: 1.2;
-    background: #eee;
-    color: #333;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-decoration:none !important;
-    font-size: 80%;
-}
-
-/* Code input, we need to undo unwanted changes here */
-
-.slide pre.sourceCode code {
-    background: #fff;
-    text-decoration:none !important;
-    padding-top: 0px;
-    padding-bottom: 0px;
-}
-
-</style>
-## Center Figure
-
-<center>
-<img src="images/r1200gs.jpg" alt="The Pulpit Rock" width="40%">
-</center>
+<p>
+This theme from: https://github.com/mangothecat/rmdshower.mango.
+</p>
 
 ## R Markdown
 
@@ -92,26 +65,6 @@ Vader, who was a pupil of mine until he turned to evil, helped the Empire
 hunt down and destroy the Jedi Knights.
 </p>
 
-## Two column layout, text and image
-
-<p class="double">
-How did I get into this mess? I really don't know how. We seem to be made
-to suffer. It's our lot in life. I've got to rest before I fall apart. My
-joints are almost frozen. What a desolate place this is. Where are you
-going?
-<img src="sw.jpg" class="one-col-image">
-</p>
-
-## Two column layout, image and text
-
-<p class="double">
-<img src="sw.jpg" class="one-col-image">
-How did I get into this mess? I really don't know how. We seem to be made
-to suffer. It's our lot in life. I've got to rest before I fall apart. My
-joints are almost frozen. What a desolate place this is. Where are you
-going?
-</p>
-
 ## Two column layout, independent columns
 
 <div class="double">
@@ -143,7 +96,7 @@ It supports both inline: \(y = x / 2\) and displayed formulas:
 
 ## Slide with quote
 
-> The bad news is that when ever you learn a new skill you're going to
+> The bad news is that when ever you learn a new skill your going to
 > suck. It's going to be frustrating. The good news is that is typical and
 > happens to everyone and it is only temporary. You can't go from knowing
 > nothing to becoming an expert without going through a period of great
@@ -151,29 +104,13 @@ It supports both inline: \(y = x / 2\) and displayed formulas:
 
 **Hadley Wickham **
 
-<style>
-.small-code pre code {
-  font-size: .8em;
-}
-</style>
+## Slide with R Code and Output
 
-## Slide with R Code and Output { .small-code } 
-
-<style>
-div.sourceCode { overflow-x: hidden;}
-pre { overflow-x: hidden;} 
-</style>
-```{r message=FALSE}
+```{r}
 summary(cars)
 ```
 
 ## Tables
-
-<style>
-div.tbls { overflow-x: hidden; width:80%}
-</style>
-
-<div class = "tbls">
 
 |                   |  mpg  |  cyl  |  disp  |  hp  |
 |:-----------------:|:-----:|:-----:|:------:|:----:|
@@ -185,17 +122,15 @@ div.tbls { overflow-x: hidden; width:80%}
 |       Valiant     | 18.1  |   6   |  225.0 | 105  |
 |      Duster 360   | 14.3  |   8   |  360.0 | 245  |
 
-</div>
-
 ## Pictures { .white }
 
-<img src="images/elchaiten.jpg" class="cover">
+<img src="scifi.jpg" class="cover">
 
 <p class="white">
 And text on top of them.
 </p>
 
-# Title slide
+# Section Divider
 
 ## Lists item by item
 
@@ -213,26 +148,7 @@ pairs(iris[1:4], pch = 21,
       bg = c("red", "green3", "blue")[unclass(iris$Species)])
 ```
 
-## Div Test
-
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "blue">
-- This is my first conclusion
-- This is my second conclusion
-</div>
-
-## Kable test { .small-code }
-
-```{r tables-mtcars}
-library(DT)
-datatable(mtcars, rownames = FALSE, 
-          filter="top", 
-          options = list(pageLength = 5, scrollX=TRUE) )
-```
-
-# Full Page Plots
+## Full Page Plots
 
 ## { .fullpage }
 
@@ -246,8 +162,6 @@ pairs(iris[1:4], pch = 21,
 
 ## More information
 
-### About R markdown: http://rmarkdown.rstudio.com
-
-### About shower: https://github.com/shower/shower
-
-### Example shower presentation: http://shwr.me/
+- About R markdown: http://rmarkdown.rstudio.com
+- About shower: https://github.com/shower/shower
+- Example shower presentation: http://shwr.me/

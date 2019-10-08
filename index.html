@@ -1,90 +1,375 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
+<!DOCTYPE html>
+<html>
 <head>
-	<title>Web Applications for Area frame</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=1274, user-scalable=no">
-	<meta name="description" content="Web Applications for Area frame">
-	<meta name="author" content="André Leite">
-	<meta name="generator" content="slidify" />
-	<!-- LOAD STYLE SHEETS -->
-	<link rel="stylesheet" href="libraries/frameworks/shower/themes/ribbon/styles/screen.css">
-	<link rel="stylesheet" media="print"
-	  href="libraries/frameworks/shower/themes/ribbon/styles/print.css">
-	<link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css">  <link rel="stylesheet" href = "libraries/widgets/bootstrap/css/bootstrap.css">
-<link rel="stylesheet" href = "assets/css/ribbons.css">
-
-	<!--
-		To apply styles to the certain slides
-		use slide ID to get needed elements
-		-->
-	<style>
-		#Cover h2 {
-      margin:65px 0 0;
-			color:#FFF;
-			text-align:center;
-			font-size:70px;
-			}
-		#FitToWidth h2,
-		#FitToHeight h2 {
-			color:#FFF;
-			text-align:center;
-			}
-	</style> 
+  <title>Shower Presentations with R Markdown</title>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="index_files/shower-material/package/styles/screen-16x10.css">
+  <link rel="stylesheet" href="index_files/rmdshower/style-common.css">
+  <link rel="stylesheet" href="index_files/rmdshower/style-material.css">
+  <link rel="stylesheet" href="index_files/shower-material/style-override.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.js"></script>
+  <script src="index_files/rmdshower/auto-render.min.js" type="text/javascript"></script>
+  
+  
+    <style type="text/css">
+   a.sourceLine { display: inline-block; line-height: 1.25; }
+   a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+   a.sourceLine:empty { height: 1.2em; }
+   .sourceCode { overflow: visible; }
+   code.sourceCode { white-space: pre; position: relative; }
+   div.sourceCode { margin: 1em 0; }
+   pre.sourceCode { margin: 0; }
+   @media screen {
+   div.sourceCode { overflow: auto; }
+   }
+   @media print {
+   code.sourceCode { white-space: pre-wrap; }
+   a.sourceLine { text-indent: -1em; padding-left: 1em; }
+   }
+   pre.numberSource a.sourceLine
+     { position: relative; left: -4em; }
+   pre.numberSource a.sourceLine::before
+     { content: attr(data-line-number);
+       position: relative; left: -1em; text-align: right; vertical-align: baseline;
+       border: none; pointer-events: all; display: inline-block;
+       -webkit-touch-callout: none; -webkit-user-select: none;
+       -khtml-user-select: none; -moz-user-select: none;
+       -ms-user-select: none; user-select: none;
+       padding: 0 4px; width: 4em;
+       color: #aaaaaa;
+     }
+   pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+   div.sourceCode
+     {  }
+   @media screen {
+   a.sourceLine::before { text-decoration: underline; }
+   }
+   code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+   code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+   code span.at { color: #7d9029; } /* Attribute */
+   code span.bn { color: #40a070; } /* BaseN */
+   code span.bu { } /* BuiltIn */
+   code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+   code span.ch { color: #4070a0; } /* Char */
+   code span.cn { color: #880000; } /* Constant */
+   code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+   code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+   code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+   code span.dt { color: #902000; } /* DataType */
+   code span.dv { color: #40a070; } /* DecVal */
+   code span.er { color: #ff0000; font-weight: bold; } /* Error */
+   code span.ex { } /* Extension */
+   code span.fl { color: #40a070; } /* Float */
+   code span.fu { color: #06287e; } /* Function */
+   code span.im { } /* Import */
+   code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+   code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+   code span.op { color: #666666; } /* Operator */
+   code span.ot { color: #007020; } /* Other */
+   code span.pp { color: #bc7a00; } /* Preprocessor */
+   code span.sc { color: #4070a0; } /* SpecialChar */
+   code span.ss { color: #bb6688; } /* SpecialString */
+   code span.st { color: #4070a0; } /* String */
+   code span.va { color: #19177c; } /* Variable */
+   code span.vs { color: #4070a0; } /* VerbatimString */
+   code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  
+  
+      <script src="index_files/htmlwidgets-1.3/htmlwidgets.js"></script>
+    <script src="index_files/jquery-1.12.4/jquery.min.js"></script>
+    <link href="index_files/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="index_files/datatables-binding-0.9/datatables.js"></script>
+    <link href="index_files/dt-core-1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="index_files/dt-core-1.10.19/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="index_files/dt-core-1.10.19/js/jquery.dataTables.min.js"></script>
+    <link href="index_files/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet" />
+    <script src="index_files/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+    <link href="index_files/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet" />
+    <script src="index_files/selectize-0.12.0/selectize.min.js"></script>
+    <link href="index_files/crosstalk-1.0.0/css/crosstalk.css" rel="stylesheet" />
+    <script src="index_files/crosstalk-1.0.0/js/crosstalk.min.js"></script>
+  
 </head>
-<body class="list">
+
+<body class="shower list">
+
   <header class="caption">
-  	<h1>Web Applications for Area frame</h1>
-	</header>
-  <section class="slide " id="slide-1">
-  <div>
-    <h2>Read-And-Delete</h2>
-    <ol>
-<li>Edit YAML front matter</li>
-<li>Write using R Markdown</li>
-<li>Use an empty line followed by three dashes to separate slides!</li>
+    <h1>Shower Presentations with R Markdown</h1>
+    <p>André Leite</p>
+  </header>
+
+  
+  
+<section id="shower-presentations-with-r-markdown" class="slide level2 white">
+<h2>Shower Presentations with R Markdown</h2>
+<p><img src="images/elchaiten.jpg" class="cover"></p>
+<p class="white">
+Get it from GitHub: <a href="https://github.com/mangothecat/rmdshower" class="uri">https://github.com/mangothecat/rmdshower</a>.
+</p>
+<style>
+.slide pre code {
+    display: block;
+    line-height: 1.2;
+    background: #eee;
+    color: #333;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-decoration:none !important;
+    font-size: 80%;
+}
+
+/* Code input, we need to undo unwanted changes here */
+
+.slide pre.sourceCode code {
+    background: #fff;
+    text-decoration:none !important;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+</style>
+</section>
+<section id="center-figure" class="slide level2">
+<h2>Center Figure</h2>
+<center>
+<img src="images/r1200gs.jpg" alt="The Pulpit Rock" width="40%">
+</center>
+</section>
+<section id="r-markdown" class="slide level2">
+<h2>R Markdown</h2>
+<p>This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</p>
+</section>
+<section id="shower" class="slide level2">
+<h2>Shower</h2>
+<p>These slides use a template from the <a href="https://github.com/shower/shower">shower</a> presentation system. Notable features:</p>
+<ol type="1">
+<li>Works in all modern browsers</li>
+<li>Presentation fully keyboard accessible</li>
+<li>Multiple themes available</li>
+<li>Printable to PDF</li>
 </ol>
-
-  </div>
+<p class="note">
+Shower [’ʃəuə] noun. A person or thing that shows.
+</p>
 </section>
-<section class="slide class" id="id">
-  <div>
-    <h2>Slide 2</h2>
-    
-  </div>
+<section id="slide-with-plain-text" class="slide level2">
+<h2>Slide with Plain Text</h2>
+<p>Let me see your identification. You don’t need to see his identification. We don’t need to see his identification. These are not the droids your looking for. These are not the droids we’re looking for. He can go about his business. You can go about your business.</p>
+<p>Move along. Move along. Move along.</p>
 </section>
-  <div class="progress">
-    <div></div>
-  </div>
-	<script src="libraries/frameworks/shower/shower.js"></script>
-	<!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
-	<script type="text/x-mathjax-config">
-	  MathJax.Hub.Config({
-	    tex2jax: {
-	      inlineMath: [['$','$'], ['\\(','\\)']],
-	      processEscapes: true
-	    }
-	  });
-	</script>
-	<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	<!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-	</script> -->
-	
-<script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
-</script>
+<section id="two-column-layout" class="slide level2">
+<h2>Two column layout</h2>
+<p class="double">
+What is it? Your fathers lightsaber. This is the weapon of a Jedi Knight. Not as clumsy or as random as a blaster. An elegant weapon for a more civilized time. For over a thousand generations the Jedi Knights were the guardians of peace and justice in the Old Republic. Before the dark times, before the Empire. How did my father die? A young Jedi named Darth Vader, who was a pupil of mine until he turned to evil, helped the Empire hunt down and destroy the Jedi Knights.
+</p>
+</section>
+<section id="two-column-layout-text-and-image" class="slide level2">
+<h2>Two column layout, text and image</h2>
+<p class="double">
+How did I get into this mess? I really don’t know how. We seem to be made to suffer. It’s our lot in life. I’ve got to rest before I fall apart. My joints are almost frozen. What a desolate place this is. Where are you going? <img src="sw.jpg" class="one-col-image">
+</p>
+</section>
+<section id="two-column-layout-image-and-text" class="slide level2">
+<h2>Two column layout, image and text</h2>
+<p class="double">
+<img src="sw.jpg" class="one-col-image"> How did I get into this mess? I really don’t know how. We seem to be made to suffer. It’s our lot in life. I’ve got to rest before I fall apart. My joints are almost frozen. What a desolate place this is. Where are you going?
+</p>
+</section>
+<section id="two-column-layout-independent-columns" class="slide level2">
+<h2>Two column layout, independent columns</h2>
+<div class="double">
+<p class="double-flow">
+How did I get into this mess? I really don’t know how. We seem to be made to suffer.
+</p>
+<p class="double-flow">
+It’s our lot in life. I’ve got to rest before I fall apart.
+</p>
+</div>
+</section>
+<section id="lists" class="slide level2">
+<h2>Lists</h2>
+<ol type="1">
+<li>Simple lists are marked with bullets</li>
+<li>Ordered lists begin with a number</li>
+<li>You can even nest lists one inside another
+<ul>
+<li>Or mix their types</li>
+<li>But do not go too far</li>
+<li>Otherwise audience will be bored</li>
+</ul></li>
+<li>Look, seven rows exactly!</li>
+</ol>
+</section>
+<section id="formulas" class="slide level2">
+<h2>Formulas</h2>
+<p>Formulas are rendered by KaTeX, <a href="https://github.com/Khan/KaTeX" class="uri">https://github.com/Khan/KaTeX</a></p>
+<p>It supports both inline: <span class="math inline">\(y = x / 2\)</span> and displayed formulas:</p>
+<p><span class="math display">\[ x_{1,2} = \frac{- b \pm \sqrt{b^2 - 4ac}}{2a} \]</span></p>
+</section>
+<section id="slide-with-quote" class="slide level2">
+<h2>Slide with quote</h2>
+<blockquote>
+<p>The bad news is that when ever you learn a new skill you’re going to suck. It’s going to be frustrating. The good news is that is typical and happens to everyone and it is only temporary. You can’t go from knowing nothing to becoming an expert without going through a period of great frustration and great suckiness.</p>
+</blockquote>
+<p><strong>Hadley Wickham </strong></p>
+<style>
+.small-code pre code {
+  font-size: .8em;
+}
+</style>
+</section>
+<section id="slide-with-r-code-and-output" class="slide level2 small-code">
+<h2>Slide with R Code and Output</h2>
+<style>
+div.sourceCode { overflow-x: hidden;}
+pre { overflow-x: hidden;} 
+</style>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">summary</span>(cars)</a></code></pre></div>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+</section>
+<section id="tables" class="slide level2">
+<h2>Tables</h2>
+<style>
+div.tbls { overflow-x: hidden; width:80%}
+</style>
+<div class="tbls">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">mpg</th>
+<th style="text-align: center;">cyl</th>
+<th style="text-align: center;">disp</th>
+<th style="text-align: center;">hp</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Mazda RX4</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">110</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Mazda RX4 Wag</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">160</td>
+<td style="text-align: center;">110</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Datsun 710</td>
+<td style="text-align: center;">22.8</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">108</td>
+<td style="text-align: center;">93</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Hornet 4 Drive</td>
+<td style="text-align: center;">21.4</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">258</td>
+<td style="text-align: center;">110</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Hornet Sportabout</td>
+<td style="text-align: center;">18.7</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">360.0</td>
+<td style="text-align: center;">175</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Valiant</td>
+<td style="text-align: center;">18.1</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">225.0</td>
+<td style="text-align: center;">105</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Duster 360</td>
+<td style="text-align: center;">14.3</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">360.0</td>
+<td style="text-align: center;">245</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="pictures" class="slide level2 white">
+<h2>Pictures</h2>
+<p><img src="images/elchaiten.jpg" class="cover"></p>
+<p class="white">
+And text on top of them.
+</p>
+</section>
+<section id="title-slide" class="title-slide slide level1"><h1>Title slide</h1></section><section id="lists-item-by-item" class="slide level2">
+<h2>Lists item by item</h2>
+<ol type="1">
+<li class="fragment next">Lets you reveal list items one by one</li>
+<li class="fragment next">To keep some key points</li>
+<li class="fragment next">In secret from audience</li>
+<li class="fragment next">But it will work only once</li>
+<li class="fragment next">Nobody wants to see the same joke twice</li>
+</ol>
+</section><section id="slide-with-plot" class="slide level2">
+<h2>Slide with Plot</h2>
+<p><img src="index_files/figure-revealjs/unnamed-chunk-2-1.svg" width="768" /></p>
+</section><section id="div-test" class="slide level2">
+<h2>Div Test</h2>
+<style>
+div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
+</style>
+<div class="blue">
+<ul>
+<li>This is my first conclusion</li>
+<li>This is my second conclusion</li>
+</ul>
+</div>
+</section><section id="kable-test" class="slide level2 small-code">
+<h2>Kable test</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(DT)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">datatable</span>(mtcars, <span class="dt">rownames =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">          <span class="dt">filter=</span><span class="st">&quot;top&quot;</span>, </a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">          <span class="dt">options =</span> <span class="kw">list</span>(<span class="dt">pageLength =</span> <span class="dv">5</span>, <span class="dt">scrollX=</span><span class="ot">TRUE</span>) )</a></code></pre></div>
+<div id="htmlwidget-22e1dfafffb7883dc305" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-22e1dfafffb7883dc305">{"x":{"filter":"top","filterHTML":"<tr>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"10.4\" data-max=\"33.9\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"4\" data-max=\"8\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"71.1\" data-max=\"472\" data-scale=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"52\" data-max=\"335\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"2.76\" data-max=\"4.93\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1.513\" data-max=\"5.424\" data-scale=\"3\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"14.5\" data-max=\"22.9\" data-scale=\"2\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"3\" data-max=\"5\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none; position: absolute; width: 200px;\">\n      <div data-min=\"1\" data-max=\"8\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],[160,160,108,258,360,225,360,146.7,140.8,167.6,167.6,275.8,275.8,275.8,472,460,440,78.7,75.7,71.1,120.1,318,304,350,400,79,120.3,95.1,351,145,301,121],[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07,3.07,3.07,2.93,3,3.23,4.08,4.93,4.22,3.7,2.76,3.15,3.73,3.08,4.08,4.43,3.77,4.22,3.62,3.54,4.11],[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98,17.82,17.42,19.47,18.52,19.9,20.01,16.87,17.3,15.41,17.05,18.9,16.7,16.9,14.5,15.5,14.6,18.6],[0,0,1,1,0,1,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,1,0,0,0,1],[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,1,1,1,1],[4,4,4,3,3,3,3,4,4,4,4,3,3,3,3,3,3,4,4,4,3,3,3,3,3,4,5,5,5,5,5,4],[4,4,1,1,2,1,4,2,2,4,4,3,3,3,4,4,4,1,2,1,1,2,2,4,2,1,2,2,4,6,8,2]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>mpg<\/th>\n      <th>cyl<\/th>\n      <th>disp<\/th>\n      <th>hp<\/th>\n      <th>drat<\/th>\n      <th>wt<\/th>\n      <th>qsec<\/th>\n      <th>vs<\/th>\n      <th>am<\/th>\n      <th>gear<\/th>\n      <th>carb<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":5,"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[0,1,2,3,4,5,6,7,8,9,10]}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[5,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+</section>
+<section id="full-page-plots" class="title-slide slide level1"><h1>Full Page Plots</h1></section><section id="section" class="slide level2 fullpage">
+<h2></h2>
+<div class="fullpage width">
+<p><img src="index_files/figure-revealjs/unnamed-chunk-3-1.svg" width="768" /></p>
+</div>
+</section><section id="more-information" class="slide level2">
+<h2>More information</h2>
+<h3 id="about-r-markdown-httprmarkdown.rstudio.com">About R markdown: <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a></h3>
+<h3 id="about-shower-httpsgithub.comshowershower">About shower: <a href="https://github.com/shower/shower" class="uri">https://github.com/shower/shower</a></h3>
+<h3 id="example-shower-presentation-httpshwr.me">Example shower presentation: <a href="http://shwr.me/" class="uri">http://shwr.me/</a></h3>
+</section>
 
-	<script>  
-	$(function (){ 
-	  $("#example").popover(); 
-	  $("[rel='tooltip']").tooltip(); 
-	});  
-	</script>  
-	<!-- LOAD HIGHLIGHTER JS FILES -->
-	<script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
-	<script>hljs.initHighlightingOnLoad();</script>
-	<!-- DONE LOADING HIGHLIGHTER JS FILES -->
-	 
-		<!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
-	<!-- Photos by John Carey — fiftyfootshadows.net -->
+  <!--
+  To hide progress bar from entire presentation
+  just remove “progress” element.
+  -->
+  <!-- <div class="progress"></div> -->
+  <script src="index_files/rmdshower/node_modules/shower/node_modules/shower-core/shower.min.js"></script>
+  <!-- Copyright © 2015 Yours Truly, Famous Inc. -->
+  <!-- Photos by John Carey, fiftyfootshadows.net -->
+
+    <script>renderMathInElement(document.body);</script>
+  
+  
 </body>
 </html>

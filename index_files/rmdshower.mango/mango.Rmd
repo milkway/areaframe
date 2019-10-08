@@ -1,52 +1,14 @@
 ---
-title: "Shower Presentations with R Markdown"
-author: André Leite
+title: "Mango Presentations in R Markdown"
+author: "Gábor Csárdi"
+email: "gcsardi@mango-solutions.com"
+maketitle: true
 output:
   rmdshower::shower_presentation:
-    theme: material
     self_contained: false
-    highlight: default
     katex: true
-    smart: true
-    ratio: 16x10
+    theme: mango
 ---
-
-## Shower Presentations with R Markdown { .white }
-
-<img src="images/elchaiten.jpg" class="cover">
-
-<p class="white">
-Get it from GitHub: https://github.com/mangothecat/rmdshower.
-</p>
-
-
-<style>
-.slide pre code {
-    display: block;
-    line-height: 1.2;
-    background: #eee;
-    color: #333;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-decoration:none !important;
-    font-size: 80%;
-}
-
-/* Code input, we need to undo unwanted changes here */
-
-.slide pre.sourceCode code {
-    background: #fff;
-    text-decoration:none !important;
-    padding-top: 0px;
-    padding-bottom: 0px;
-}
-
-</style>
-## Center Figure
-
-<center>
-<img src="images/r1200gs.jpg" alt="The Pulpit Rock" width="40%">
-</center>
 
 ## R Markdown
 
@@ -66,7 +28,7 @@ presentation system. Notable features:
 1. Works in all modern browsers
 1. Presentation fully keyboard accessible
 1. Multiple themes available
-1. Printable to PDF
+1. Printable to PDF (Need Chrome version 49.0.2623 for two column slides)
 
 <p class="note"> Shower ['ʃəuə] noun. A person or thing that shows.</p>
 
@@ -143,37 +105,21 @@ It supports both inline: \(y = x / 2\) and displayed formulas:
 
 ## Slide with quote
 
-> The bad news is that when ever you learn a new skill you're going to
+> The bad news is that when ever you learn a new skill your going to
 > suck. It's going to be frustrating. The good news is that is typical and
 > happens to everyone and it is only temporary. You can't go from knowing
 > nothing to becoming an expert without going through a period of great
 > frustration and great suckiness.
 
-**Hadley Wickham **
+**Hadley Wickham﻿ **
 
-<style>
-.small-code pre code {
-  font-size: .8em;
-}
-</style>
+## Slide with R Code and Output
 
-## Slide with R Code and Output { .small-code } 
-
-<style>
-div.sourceCode { overflow-x: hidden;}
-pre { overflow-x: hidden;} 
-</style>
-```{r message=FALSE}
+```{r}
 summary(cars)
 ```
 
 ## Tables
-
-<style>
-div.tbls { overflow-x: hidden; width:80%}
-</style>
-
-<div class = "tbls">
 
 |                   |  mpg  |  cyl  |  disp  |  hp  |
 |:-----------------:|:-----:|:-----:|:------:|:----:|
@@ -185,11 +131,9 @@ div.tbls { overflow-x: hidden; width:80%}
 |       Valiant     | 18.1  |   6   |  225.0 | 105  |
 |      Duster 360   | 14.3  |   8   |  360.0 | 245  |
 
-</div>
+## Pictures { .cover .white }
 
-## Pictures { .white }
-
-<img src="images/elchaiten.jpg" class="cover">
+<img src="scifi.jpg" class="cover height">
 
 <p class="white">
 And text on top of them.
@@ -213,25 +157,6 @@ pairs(iris[1:4], pch = 21,
       bg = c("red", "green3", "blue")[unclass(iris$Species)])
 ```
 
-## Div Test
-
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "blue">
-- This is my first conclusion
-- This is my second conclusion
-</div>
-
-## Kable test { .small-code }
-
-```{r tables-mtcars}
-library(DT)
-datatable(mtcars, rownames = FALSE, 
-          filter="top", 
-          options = list(pageLength = 5, scrollX=TRUE) )
-```
-
 # Full Page Plots
 
 ## { .fullpage }
@@ -245,6 +170,8 @@ pairs(iris[1:4], pch = 21,
 </div>
 
 ## More information
+
+### About rmdshower: https://github.com/mangothecat/rmdshower
 
 ### About R markdown: http://rmarkdown.rstudio.com
 
