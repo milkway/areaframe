@@ -1,54 +1,240 @@
 ---
-title: "Shower Presentations with R Markdown"
+title: "Tecnologias web para construção de cadastros de área em pesquisas agropecuárias"
 author: André Leite
 output:
   rmdshower::shower_presentation:
+    css: style-override.css
     theme: material
     self_contained: false
-    highlight: default
     katex: true
-    smart: true
     ratio: 16x10
 ---
 
-## Shower Presentations with R Markdown { .white }
+## Tecnologias web para construção de cadastros de área em pesquisas agropecuárias { .clear .boldtlt .off}
 
-<img src="images/elchaiten.jpg" class="cover">
 
-<p class="white">
-Get it from GitHub: https://github.com/mangothecat/rmdshower.
+<img src="images/world2.png" class="cover height">
+
+<p class="black">
+**André Leite** (leite@castlab.org)
+<br>
+**Cristiano Ferraz** (cferraz@castlab.org)
+<br>
+**Raydonal Ospina** (raydonal@castlab.org)
 </p>
 
 
-<style>
-.slide pre code {
-    display: block;
-    line-height: 1.2;
-    background: #eee;
-    color: #333;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    text-decoration:none !important;
-    font-size: 80%;
-}
+##  
+<h2 class="shout">Outline</h2>
+<p>Test</p>
 
-/* Code input, we need to undo unwanted changes here */
+## Topics
 
-.slide pre.sourceCode code {
-    background: #fff;
-    text-decoration:none !important;
-    padding-top: 0px;
-    padding-bottom: 0px;
-}
+<div style='float:left;width:48%;' class='centered'>
 
-</style>
-## Center Figure
+- Area frames
+- Crowdsourcing
+- `R`
+- `Shiny`
+- Infraestrutura
+- Master Sampling Project
+
+</div>
+<div style='float:right;width:48%;margin-top:-100px;'>
+```{r echo=FALSE, message=FALSE, out.height='420px', out.width='470px'}
+library(tidyverse)
+library(leaflet)
+library(rgdal)
+library(rgeos)
+library(tibble)
+library(leaflet)
+library(htmltools)
+
+tractsGoiana <- read_rds("data/tractsGoiana.rds")
+segmentsGoiana <- read_rds("data/segmentsGoiana.rds")
+goiana_points <- read_rds("data/goiana_points.rds")
+
+points779 <- goiana_points %>% select(Segment, latitude, longitude, Reference, imageLatitude, imageLongitude) %>%  filter(Segment == 779)
+
+ tractsGoiana@data  <- tractsGoiana@data %>%
+   mutate(Label = paste("ID",ID, "Area: ", round(Area,1), "hec"))
+
+leaflet() %>% addTiles() %>%
+  addProviderTiles("Esri.WorldImagery", group = "WorldImagery") %>%
+  addPolygons(data = tractsGoiana[tractsGoiana$Segment == "779",],
+              color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5,
+              fillColor = ~colorQuantile("YlOrRd", as.integer(Tract))(as.integer(Tract)),
+              highlightOptions = highlightOptions(color = "white", weight = 2,
+                                                  bringToFront = FALSE),
+              label = ~Label,
+               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(90, 0))) %>%
+  addPolygons(data = segmentsGoiana["779",], popup = "Goiana Segment 779",
+              fill = FALSE, weight = 4, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 1, color = "white", options = popupOptions(minWidth = 20, closeOnClick = FALSE, closeButton = FALSE)) %>%
+  addCircles(data = points779, lng = ~longitude, lat = ~latitude, popup =~Reference, radius = 15, opacity =  1, color = "white") %>%
+  addMarkers(data = points779, lng = ~as.numeric(imageLongitude), lat = ~as.numeric(imageLatitude), popup =~Reference)
+
+```
+</div>
+
+
+
+
+##  
+<h2 class="shout">Area Frames</h2>
+<p>Test</p>
+
+
+## Area Frames {.small-list}
+
+<div style='float:left;width:65%;' class='centered'>
+
+> 1. Sampling units can assume a variety of forms
+> 2. Built upon GPS/GIS/Remote sensing type of data
+> 3. <strong style="color:ForestGreen">Furnishes complete population coverage </strong>
+> 4. <strong style="color:ForestGreen">Keeps updated over time </strong>
+> 5. Provides indirect access to reporting units
+> 6. <strong style="color:DeepSkyBlue ">Needs maintenance for stratification purposes  </strong>
+> 7. <strong style="color:OrangeRed">High costs to build an area frame  </strong>
+> 8. <strong style="color:OrangeRed">Finding reporting units can require high efforts </strong>
+
+<blockquote>
+  <p>Ferraz & Mecatti</p>
+</blockquote>
+
+</div>
+<div style='float:right;width:35%;margin-top:0px;'>
+```{r echo=FALSE, message=FALSE, out.height='300px', out.width='350px'}
+goiana_grid <- read_rds("data/goiana_grid.rds")
+goiana <- read_rds("data/goiana.rds")
+goiana_grid %>% leaflet() %>%
+  addTiles() %>%
+  addPolygons(color = "#FF4500", weight = 1, fillOpacity = .1,
+              highlightOptions = highlightOptions(color = "white", weight = 2,
+                                                  bringToFront = FALSE),
+              label = ~as.character(ID),
+               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(180, 60))) %>%
+  addPolygons(data = goiana, weight = 2, fill = FALSE, opacity = 1)
+
+```
+</div>
+
+##  
+<h2 class="shout">Crowdsourcing</h2>
+<p>Test</p>
+
+## Crowdsourcing
+
+<p class="note">Definition</p>
+<figure>
+    <blockquote>
+        <p>the practice of obtaining information or input into a task or project by enlisting the services of a large number of people, either paid or unpaid, typically via the Internet.</p>
+    </blockquote>
+    <figcaption>Oxford Dictionary (lexico.com)</figcaption>
+</figure>
+
+## Crowdsourcing (Examples 1/4) {.visited .active}
+
+<div style="float:left;width:45%;margin-top:100px" class='centered'>
+<img class="next" src="images/google1.png" width="400px">
+</div>
+<div style="float:right;width:45%;margin-top:100px">
+<img class="next" src="images/google2.png" width="400px">
+</div>
+
+## Crowdsourcing (Examples 2/4) {.visited .active}
+
+<div style='float:left;width:45%;' class='centered'>
+<img class="next active" src="images/google3.png" height="25%">
+</div>
+<div style='float:right;width:45%;'>
+<img class="next" src="images/google4.jpeg" width="400px">
+</div>
+
+## Crowdsourcing (Examples 3/4) {.visited .active .off}
+
+<div style='float:left;width:48%;' class='centered'>
+<img class="next active" src="images/google6.png" width="400px">
+</div>
+<div style='float:right;width:48%;'>
+<img class="next" src="images/googleTemp6.jpg" width="300px">
+</div>
+
+## Crowdsourcing (Examples 4/4) {.visited .active}
 
 <center>
-<img src="images/r1200gs.jpg" alt="The Pulpit Rock" width="40%">
+<img src="images/google7.png" height="25%">
 </center>
 
-## R Markdown
+##  {.off}
+
+<center>
+<img src="images/R_logo.png" width="50%">
+</center>
+
+##  {.off}
+
+<center>
+<img src="images/RStudio-Logo.png" width="75%">
+</center>
+
+
+## {.off}
+
+<center>
+<img src="images/shiny.webp" class="cover height">
+</center>
+
+## Shout
+
+<h2 class="shout">Infrastructure</h2>
+
+
+## {.off}
+
+<center>
+<img src="images/ssdnodes.png" class="cover height">
+</center>
+
+
+## {.off}
+
+<center>
+<img src="images/do.png" class="cover height">
+</center>
+
+
+## {.off}
+
+<center>
+<img src="images/mlab.png">
+</center>
+
+
+## Grid { .grid }
+
+## Note
+
+<p>Text</p>
+<p class="note">Note</p>
+<figure>
+    <blockquote>
+        <p>Post-ironic fashion axe flexitarian</p>
+    </blockquote>
+    <figcaption>Yours Truly</figcaption>
+</figure>
+
+## Shout
+
+<h2 class="shout">Shout</h2>
+
+
+## Place
+
+<img class="place bottom" src="images/elchaiten.jpg">
+
+## R Markdown {.off}
 
 This is an R Markdown presentation. Markdown is a simple formatting syntax
 for authoring HTML, PDF, and MS Word documents. For more details on using R
@@ -57,6 +243,10 @@ Markdown see <http://rmarkdown.rstudio.com>.
 When you click the **Knit** button a document will be generated that
 includes both content as well as the output of any embedded R code chunks
 within the document.
+
+<footer class="footer">
+<p>Cosby sweater Shoreditch.</p>
+</footer>
 
 ## Shower
 
@@ -99,13 +289,18 @@ How did I get into this mess? I really don't know how. We seem to be made
 to suffer. It's our lot in life. I've got to rest before I fall apart. My
 joints are almost frozen. What a desolate place this is. Where are you
 going?
-<img src="sw.jpg" class="one-col-image">
+
+How did I get into this mess? I really don't know how. We seem to be made
+to suffer. It's our lot in life. I've got to rest before I fall apart. My
+joints are almost frozen. What a desolate place this is. Where are you
+going?
+<img src="images/google2.jpg" class="one-col-image">
 </p>
 
 ## Two column layout, image and text
 
 <p class="double">
-<img src="sw.jpg" class="one-col-image">
+<img src="images/google1.jpg" class="one-col-image place left">
 How did I get into this mess? I really don't know how. We seem to be made
 to suffer. It's our lot in life. I've got to rest before I fall apart. My
 joints are almost frozen. What a desolate place this is. Where are you
@@ -122,6 +317,7 @@ to suffer.
 It's our lot in life. I've got to rest before I fall apart.
 </p>
 </div>
+
 
 ## Lists
 
@@ -151,27 +347,16 @@ It supports both inline: \(y = x / 2\) and displayed formulas:
 
 **Hadley Wickham **
 
-<style>
-.small-code pre code {
-  font-size: .8em;
-}
-</style>
 
-## Slide with R Code and Output { .small-code } 
+## Slide with R Code and Output { .small-code }
 
-<style>
-div.sourceCode { overflow-x: hidden;}
-pre { overflow-x: hidden;} 
-</style>
 ```{r message=FALSE}
 summary(cars)
 ```
 
 ## Tables
 
-<style>
-div.tbls { overflow-x: hidden; width:80%}
-</style>
+
 
 <div class = "tbls">
 
@@ -195,7 +380,6 @@ div.tbls { overflow-x: hidden; width:80%}
 And text on top of them.
 </p>
 
-# Title slide
 
 ## Lists item by item
 
@@ -227,8 +411,8 @@ div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
 
 ```{r tables-mtcars}
 library(DT)
-datatable(mtcars, rownames = FALSE, 
-          filter="top", 
+datatable(mtcars, rownames = FALSE,
+          filter="top",
           options = list(pageLength = 5, scrollX=TRUE) )
 ```
 
