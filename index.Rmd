@@ -1,6 +1,6 @@
 ---
 title: "Tecnologias web para construção de cadastros de área em pesquisas agropecuárias"
-author: André Leite
+author: André Leite, Cristiano Ferraz, and Raydonal Ospina 
 output:
   rmdshower::shower_presentation:
     css: style-override.css
@@ -23,6 +23,20 @@ output:
 **Raydonal Ospina** (raydonal@castlab.org)
 </p>
 
+##  
+<h2 class="shout">CASTLab</h2>
+<p>Test</p>
+
+
+## CASTLab.org {.off}
+<div
+ style="padding-bottom:56.25%; position:relative; display:block; width: 100%; height=300px">
+ <iframe style="border: none;"
+  width="100%" height="400px"
+  src="https://castlab.org"
+  frameborder="0" allowfullscreen=""
+  style="position:absolute; top:0; left: 0"></iframe>
+</div>
 
 ##  
 <h2 class="shout">Outline</h2>
@@ -68,7 +82,7 @@ leaflet() %>% addTiles() %>%
               highlightOptions = highlightOptions(color = "white", weight = 2,
                                                   bringToFront = FALSE),
               label = ~Label,
-               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(90, 0))) %>%
+               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(0, 0))) %>% # 90, 0
   addPolygons(data = segmentsGoiana["779",], popup = "Goiana Segment 779",
               fill = FALSE, weight = 4, smoothFactor = 0.5,
               opacity = 1.0, fillOpacity = 1, color = "white", options = popupOptions(minWidth = 20, closeOnClick = FALSE, closeButton = FALSE)) %>%
@@ -114,7 +128,7 @@ goiana_grid %>% leaflet() %>%
               highlightOptions = highlightOptions(color = "white", weight = 2,
                                                   bringToFront = FALSE),
               label = ~as.character(ID),
-               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(180, 60))) %>%
+               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(0, 0))) %>% # 180, 60
   addPolygons(data = goiana, weight = 2, fill = FALSE, opacity = 1)
 
 ```
@@ -134,7 +148,7 @@ goiana_grid %>% leaflet() %>%
     <figcaption>Oxford Dictionary (lexico.com)</figcaption>
 </figure>
 
-## Crowdsourcing (Examples 1/4) {.visited .active}
+## Crowdsourcing (Google $1/4$) {.visited .active}
 
 <div style="float:left;width:45%;margin-top:100px" class='centered'>
 <img class="next" src="images/google1.png" width="400px">
@@ -143,7 +157,7 @@ goiana_grid %>% leaflet() %>%
 <img class="next" src="images/google2.png" width="400px">
 </div>
 
-## Crowdsourcing (Examples 2/4) {.visited .active}
+## Crowdsourcing (Google $2/4$) {.visited .active}
 
 <div style='float:left;width:45%;' class='centered'>
 <img class="next active" src="images/google3.png" height="25%">
@@ -152,7 +166,7 @@ goiana_grid %>% leaflet() %>%
 <img class="next" src="images/google4.jpeg" width="400px">
 </div>
 
-## Crowdsourcing (Examples 3/4) {.visited .active .off}
+## Crowdsourcing (Google $3/4$) {.visited .active .off}
 
 <div style='float:left;width:48%;' class='centered'>
 <img class="next active" src="images/google6.png" width="400px">
@@ -161,7 +175,7 @@ goiana_grid %>% leaflet() %>%
 <img class="next" src="images/googleTemp6.jpg" width="300px">
 </div>
 
-## Crowdsourcing (Examples 4/4) {.visited .active}
+## Crowdsourcing (Google $4/4$) {.visited .active}
 
 <center>
 <img src="images/google7.png" height="25%">
@@ -179,6 +193,21 @@ goiana_grid %>% leaflet() %>%
 <img src="images/RStudio-Logo.png" width="75%">
 </center>
 
+<div id="#flex-container" width="100%">
+<div style='float:left;width:33%;padding-left:50px;padding-top:25px;margin:0;' class='flex-item'>
+> - `leaflet`
+> - `tidyverse`
+</div>
+<div style='float:left;width:33%;padding-left:50px;padding-top:25px;margin:0' class='flex-item'>
+> - `RColorBrewer`
+> - `rmarkdown`
+</div>
+<div style='float:left;width:33%;padding-left:50px;padding-top:25px;margin:0' class='flex-item'>
+> - `rgdal`
+> - `rgeos`
+> - `sp` vs. `sf`
+</div>
+</div>
 
 ## {.off}
 
@@ -186,7 +215,97 @@ goiana_grid %>% leaflet() %>%
 <img src="images/shiny.webp" class="cover height">
 </center>
 
+##  What is Shiny?
+
+<div style='float:left;width:45%;' class='centered'>
+<figure style="font-size:.9em;line-height:1.75">
+    <blockquote>
+        <p>Shiny is an R package that makes it easy to build interactive web apps straight from R. You can host standalone apps on a webpage or embed them in R Markdown documents or build dashboards. You can also extend your Shiny apps with CSS themes, htmlwidgets, and JavaScript actions.</p>
+    </blockquote>
+    <figcaption>`shiny.rstudio.com`</figcaption>
+</figure>
+</div>
+<div style='float:right;width:45%;'>
+<img src="images/shiny_deck.png" width="400px">
+</div>
+
+## Shiny
+
+<div style='float:left;width:48%;font-size:.75em' class='centered'>
+<h3>`Server`</h3>
+```{r eval=FALSE}
+
+library(datasets)
+
+# Define a server for the Shiny app
+function(input, output) {
+  
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    
+    # Render a barplot
+    barplot(
+      WorldPhones[,input$region]*1000, 
+            main=input$region,
+            ylab="Number of Telephones",
+            xlab="Year"
+            )
+  })
+}
+```
+</div>
+<div style='float:right;width:48%;font-size:.75em'>
+<h3>`UI`</h3>
+```{r eval=FALSE}
+# Use a fluid Bootstrap layout
+fluidPage(    
+  # Give the page a title
+  titlePanel("Telephones by region"),
+  # Generate a row with a sidebar
+  sidebarLayout(      
+    # Define the sidebar with one input
+    sidebarPanel(
+      selectInput("region", "Region:", choices=colnames(WorldPhones)),
+      hr(),
+      helpText("Data from AT&T (1961) The World's Telephones.")
+    ),
+    # Create a spot for the barplot
+    mainPanel(
+      plotOutput("phonePlot")  
+    ))
+  )
+```
+</div>
+
+## Shiny {.centered}
+
+<img src="images/shiny_app.png" width="75%">
+
+## From `Shiny Gallery`
+
+<div
+ style="padding-bottom:56.25%; position:relative; display:block; width: 100%; height=300px">
+ <iframe style="border: 3px solid green;"
+  width="100%" height="375px"
+  src="https://shiny.rstudio.com/gallery/telephones-by-region.html"
+  frameborder="0" allowfullscreen=""
+  style="position:absolute; top:0; left: 0"></iframe>
+</div>
+
+
+## From `Shiny Gallery`
+
+<div
+ style="padding-bottom:56.25%; position:relative; display:block; width: 100%; height=300px">
+ <iframe style="border: 3px solid green;"
+  width="100%" height="375px"
+  src="https://shiny.rstudio.com/gallery/superzip-example.html"
+  frameborder="0" allowfullscreen=""
+  style="position:absolute; top:0; left: 0"></iframe>
+</div>
+
 ## Shout
+
 
 <h2 class="shout">Infrastructure</h2>
 
@@ -212,10 +331,28 @@ goiana_grid %>% leaflet() %>%
 </center>
 
 
+## Shout
+
+<h2 class="shout">Master Sampling Projetc</h2>
+
+
+## **The End** { .white }
+
+<img src="images/elchaiten.jpg" class="cover h">
+
+<footer class="footer">
+<p>Cosby sweater Shoreditch.</p>
+</footer>
+
+## Shout
+
+<h2 class="shout">Questions?</h2>
+
+
 ## Grid { .grid }
 
 ## Note
-
+<p class="double">
 <p>Text</p>
 <p class="note">Note</p>
 <figure>
@@ -224,15 +361,8 @@ goiana_grid %>% leaflet() %>%
     </blockquote>
     <figcaption>Yours Truly</figcaption>
 </figure>
+</p>
 
-## Shout
-
-<h2 class="shout">Shout</h2>
-
-
-## Place
-
-<img class="place bottom" src="images/elchaiten.jpg">
 
 ## R Markdown {.off}
 
@@ -244,9 +374,6 @@ When you click the **Knit** button a document will be generated that
 includes both content as well as the output of any embedded R code chunks
 within the document.
 
-<footer class="footer">
-<p>Cosby sweater Shoreditch.</p>
-</footer>
 
 ## Shower
 
@@ -371,15 +498,6 @@ summary(cars)
 |      Duster 360   | 14.3  |   8   |  360.0 | 245  |
 
 </div>
-
-## Pictures { .white }
-
-<img src="images/elchaiten.jpg" class="cover">
-
-<p class="white">
-And text on top of them.
-</p>
-
 
 ## Lists item by item
 

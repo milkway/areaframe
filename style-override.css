@@ -1,4 +1,7 @@
 
+.caption h1 {
+  line-height: 1.5;
+}
 
 .off::after {
   visibility: hidden;
@@ -10,14 +13,14 @@
 
 .boldtlt h2 {
   line-height: 1.5;
-  /* font-weight: 700; */
-  color: OrangeRed;
+  font-weight: 700; 
+  color: #4f3222;
 }
 
 /* Overrides for the material style */
 
 .slide code a {
-    background-image: none;
+  background-image: none;
 }
 
 .slide::after {
@@ -28,7 +31,7 @@
     line-height: 18px;
     text-align:right;
     counter-increment: slide;
-    content: counter(slide)'/Total';
+    content: counter(slide)'/45';
 }
 
 /* Both input and output */
@@ -49,4 +52,19 @@
     background: #fff;
     padding-top: 0px;
     padding-bottom: 0px;
+}
+
+#flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: none;
+    margin: 0 auto;
+}
+
+.flex-item {
+    background: #fff;
+    /*;background:#96ceb4*/
+    /*;background:#ffcc5c*/
+    /*;background:#ff6f69*/
 }
