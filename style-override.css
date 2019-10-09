@@ -86,3 +86,9 @@
     color: darkred;
 }
 
+.square {
+    background: #000;
+    width: 25%;
+    height: 25%;
+}
+
