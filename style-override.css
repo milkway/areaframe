@@ -8,7 +8,7 @@
 }
 
 .small-list ol {
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .boldtlt h2 {
@@ -68,3 +68,21 @@
     /*;background:#ffcc5c*/
     /*;background:#ff6f69*/
 }
+
+
+/* Mark */
+
+.slide mark {
+    padding: 0.1em 0.3em;
+}
+
+.slide mark {
+    background: #deeaee;
+    color: #034f84;
+}
+
+.slide mark.important {
+    background: #f2e394;
+    color: darkred;
+}
+
