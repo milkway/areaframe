@@ -12,9 +12,10 @@ output:
 
 ## {.off}
 
+<div class = "place center">
 <canvas id="canvas" width ="400px" height="400px">
 </canvas>
-
+</div>
 <script>
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
@@ -145,12 +146,13 @@ function drawHand(ctx, pos, length, width, color) {
 - Crowdsourcing
 - `R`
 - `Shiny`
-- Infraestrutura
+- Infrastructure
 - Master Sampling Project
 
 </div>
 <div style='float:right;width:48%;margin-top:-100px;'>
 ```{r echo=FALSE, message=FALSE, out.height='420px', out.width='470px'}
+library(magrittr)
 library(tidyverse)
 library(leaflet)
 library(rgdal)
@@ -158,6 +160,8 @@ library(rgeos)
 library(tibble)
 library(leaflet)
 library(htmltools)
+
+
 
 tractsGoiana <- read_rds("data/tractsGoiana.rds")
 segmentsGoiana <- read_rds("data/segmentsGoiana.rds")
@@ -223,7 +227,7 @@ goiana_grid %>% leaflet() %>%
               highlightOptions = highlightOptions(color = "white", weight = 2,
                                                   bringToFront = FALSE),
               label = ~as.character(ID),
-               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(0, 0))) %>% # 180, 60
+               labelOptions = labelOptions(opacity = .75, offset = c(0, 0))) %>% # 180, 60
   addPolygons(data = goiana, weight = 2, fill = FALSE, opacity = 1)
 
 ```
@@ -304,6 +308,80 @@ goiana_grid %>% leaflet() %>%
 </div>
 </div>
 
+
+## Toy model
+
+<div style="font-size:80%;" heigth='80%'>
+```{r, tidy='styler', message=FALSE, fig.height=3}
+set.seed(123)
+library(rgdal)
+library(raster)
+library(rgeos)
+library(tidyverse)
+uruguay <- getData('GADM', country='URY', level=0)
+uruguay_projected <- spTransform(uruguay, CRS("+init=epsg:3857"))
+forest_projected <- uruguay_projected %>% 
+  spsample(200, type = "random") %>% 
+  # build random poisson buffers around them
+  gBuffer(width = 4000*rpois(length(.), 3), byid = TRUE) %>% 
+  gEnvelope(byid = TRUE) %>% # take their envelope
+  gUnaryUnion()
+
+forest_projected <- gIntersection(uruguay_projected, forest_projected)
+forest <- spTransform(forest_projected, CRSobj = crs(uruguay))
+```
+</div>
+
+
+## Toy model: landscape
+
+<div style="font-size:80%">
+```{r echo=TRUE}
+library(leaflet)
+map <- leaflet() %>% addTiles() %>% addPolygons(data = uruguay, weight = 1) %>% 
+  addPolygons(data = forest, weight = 1, fillColor = "green", color = "darkgreen")
+```
+</div>
+```{r, echo=FALSE, fig.height=3}
+map
+```
+
+
+## Toy model: solution
+<div style="font-size:80%">
+```{r, tidy='styler'}
+buffers_projected <- uruguay_projected %>% 
+  spsample(10, type = "random") %>% gBuffer(width = 30000, byid = TRUE)
+
+buffers <- spTransform(buffers_projected, CRSobj = crs(uruguay))
+
+# Intersect the buffers with the forest and plot the result
+intersect_projected <- gIntersection(forest_projected, 
+                                     buffers_projected, byid = TRUE)
+intersect <- spTransform(intersect_projected, CRSobj = crs(uruguay))
+
+# Compute the proportion of forested areas within each buffer
+proportion <- gArea(intersect_projected, byid = TRUE) / 
+  gArea(buffers_projected, byid = TRUE)
+
+intersect.spdf <- SpatialPolygonsDataFrame(intersect, 
+                                           data.frame(Proportion = proportion))
+```
+</div>
+
+
+## Toy model: solution
+<div style="font-size:80%">
+```{r, tidy='styler', fig.height=3}
+map %>% addPolygons(data = buffers, weight = 2, fillOpacity = 0) %>% 
+  addPolygons(data = intersect.spdf, fillColor = "red", fillOpacity = .9, weight = 2, 
+              label = ~scales::percent(Proportion), 
+              labelOptions = labelOptions(opacity = .75, direction = "auto"))
+```
+</div>
+
+
+
 ## {.off}
 
 <center>
@@ -325,10 +403,9 @@ goiana_grid %>% leaflet() %>%
 </div>
 
 ## Shiny
-
 <div style='float:left;width:48%;font-size:.75em' class='centered'>
 <h3>`Server`</h3>
-```{r eval=FALSE}
+```{r eval=FALSE, tidy='styler'}
 
 library(datasets)
 
@@ -372,9 +449,12 @@ fluidPage(
 ```
 </div>
 
+
+
 ## Shiny {.centered}
 
 <img src="images/shiny_app.png" width="75%">
+
 
 ## From `Shiny Gallery`
 
@@ -430,6 +510,108 @@ fluidPage(
 
 <h2 class="shout">Master Sampling Projetc</h2>
 
+## Goiana {.off}
+<div class="place center" style='float:right;margin-top:75px;'>
+```{r, echo=FALSE,  out.height='450px'}
+goiana_grid@data <- goiana_grid@data %>% mutate(Color = factor(GridClass, levels = c("Non Agricultural", "Agricultural", "Highly Agricultural")))
+
+pal <- colorFactor(
+  palette = c("#d73027", "#d9ef8b", "#1a9850"),
+  domain = goiana_grid$Color)
+
+goiana_grid %>% leaflet() %>%
+  addTiles() %>%
+  addPolygons(color =  ~pal(Color), weight = 1, fillOpacity = .25,
+              highlightOptions = highlightOptions(color = "white", weight = 2,
+                                                  bringToFront = FALSE),
+              label = ~paste(ID),
+              labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(0, 0))) %>%
+  addPolygons(data = goiana, weight = 2, fill = FALSE, opacity = 1)
+
+```
+</div>
+
+## Goiana
+
+<div style='float:left;width:37%;' class='centered'>
+
+- Points
+- Tracts
+- Segments
+
+</div>
+<div style='float:right;width:63%;margin-top:-165px;'>
+```{r echo=FALSE, message=FALSE, out.height='600px', out.width='600px'}
+points779 <- goiana_points %>% dplyr::select(Segment, latitude, longitude, Reference, imageLatitude, imageLongitude) %>%  filter(Segment == 779)
+
+ tractsGoiana@data  <- tractsGoiana@data %>%
+   mutate(Label = paste("ID",ID, "Area: ", round(Area,1), "hec"))
+
+leaflet() %>% addTiles() %>%
+  addProviderTiles("Esri.WorldImagery", group = "WorldImagery") %>%
+  addPolygons(data = tractsGoiana[tractsGoiana$Segment == "779",],
+              color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5,
+              fillColor = ~colorQuantile("YlOrRd", as.integer(Tract))(as.integer(Tract)),
+              highlightOptions = highlightOptions(color = "white", weight = 2,
+                                                  bringToFront = FALSE),
+              label = ~Label,
+               labelOptions = labelOptions(noHide = FALSE, opacity = .75, direction = "auto", offset = c(0, 0))) %>% # 90, 0
+  addPolygons(data = segmentsGoiana["779",], popup = "Goiana Segment 779",
+              fill = FALSE, weight = 4, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 1, color = "white", options = popupOptions(minWidth = 20, closeOnClick = FALSE, closeButton = FALSE)) %>%
+  addCircles(data = points779, lng = ~longitude, lat = ~latitude, popup =~Reference, radius = 15, opacity =  1, color = "white") %>%
+  addMarkers(data = points779, lng = ~as.numeric(imageLongitude), lat = ~as.numeric(imageLatitude), popup =~Reference)
+```
+
+</div>
+
+
+## {.fullpage .off}
+
+<img src="images/main_areaframe.png" width = "80%">
+
+
+## {.fullpage .off}
+
+<img src="images/matureia_areaframe.png" width = "80%">
+
+
+## {.fullpage .off}
+
+<img src="images/grid_areaframe.png" width = "80%">
+
+
+## {.fullpage .off}
+
+<img src="images/sample_areaframe.png" width = "80%">
+
+## {.fullpage .off}
+
+<img src="images/random_areaframe.png" width = "80%">
+
+## {.fullpage .off}
+
+<img src="images/strata_areaframe.png" width = "80%">
+
+## {.fullpage .off}
+
+<img src="images/pointclass_areaframe.png" width = "80%">
+
+## {.fullpage .off}
+
+<img src="images/classtable_areaframe.png" width = "80%">
+
+## {.fullpage .off}
+
+<img src="images/pointend_areaframe.png" width = "80%">
+
+
+## {.fullpage .off}
+
+<img src="images/mlab_areaframe.png" width = "80%">
+
+
 
 ## **The End** { .white }
 
@@ -443,80 +625,4 @@ fluidPage(
 
 <h2 class="shout">Questions?</h2>
 
-
-## Grid { .grid }
-
-## Note
-<p class="double">
-<p>Text</p>
-<p class="note">Note</p>
-<figure>
-    <blockquote>
-        <p>Post-ironic fashion axe flexitarian</p>
-    </blockquote>
-    <figcaption>Yours Truly</figcaption>
-</figure>
-</p>
-
-## Shower
-
-These slides use a template from the [shower](https://github.com/shower/shower)
-presentation system. Notable features:
-
-1. Works in all modern browsers
-1. Presentation fully keyboard accessible
-1. Multiple themes available
-1. Printable to PDF
-
-<p class="note"> Shower ['ʃəuə] noun. A person or thing that shows.</p>
-
-
-## Formulas
-
-Formulas are rendered by KaTeX, https://github.com/Khan/KaTeX
-
-It supports both inline: \(y = x / 2\) and displayed formulas:
-
-\[ x_{1,2} = \frac{- b \pm \sqrt{b^2 - 4ac}}{2a} \]
-
-## Slide with quote
-
-> The bad news is that when ever you learn a new skill you're going to
-> suck. It's going to be frustrating. The good news is that is typical and
-> happens to everyone and it is only temporary. You can't go from knowing
-> nothing to becoming an expert without going through a period of great
-> frustration and great suckiness.
-
-**Hadley Wickham **
-
-## Div Test
-
-<style>
-div.blue { background-color:#e6f0ff; border-radius: 5px; padding: 20px;}
-</style>
-<div class = "blue">
-- This is my first conclusion
-- This is my second conclusion
-</div>
-
-## Kable test { .small-code }
-
-```{r tables-mtcars}
-library(DT)
-datatable(mtcars, rownames = FALSE,
-          filter="top",
-          options = list(pageLength = 5, scrollX=TRUE) )
-```
-
-# Full Page Plots
-
-## { .fullpage }
-
-<div class="fullpage width">
-```{r, echo=FALSE, dev='svg'}
-par(mar = c(5, 4, 1, 2) + 0.1)
-pairs(iris[1:4], pch = 21,
-      bg = c("red", "green3", "blue")[unclass(iris$Species)])
-```
-</div>
 

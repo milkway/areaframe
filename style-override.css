@@ -54,6 +54,15 @@
     padding-bottom: 0px;
 }
 
+    
+pre.sourceCode.r {
+    overflow-x: hidden;
+}
+
+pre.sourceCode.r cscroll {
+    overflow-x: scroll;
+}
+
 #flex-container {
     display: flex;
     flex-direction: row;
