@@ -309,7 +309,7 @@ goiana_grid %>% leaflet() %>%
 </div>
 
 
-## Toy model
+## Toy model (Uruguay)
 
 <div style="font-size:80%;" heigth='80%'>
 ```{r, tidy='styler', message=FALSE, fig.height=3}
@@ -333,7 +333,7 @@ forest <- spTransform(forest_projected, CRSobj = crs(uruguay))
 </div>
 
 
-## Toy model: landscape
+## Toy model: landscape (Uruguay)
 
 <div style="font-size:80%">
 ```{r echo=TRUE}
@@ -347,7 +347,7 @@ map
 ```
 
 
-## Toy model: solution
+## Toy model: solution (Uruguay)
 <div style="font-size:80%">
 ```{r, tidy='styler'}
 buffers_projected <- uruguay_projected %>% 
@@ -370,7 +370,7 @@ intersect.spdf <- SpatialPolygonsDataFrame(intersect,
 </div>
 
 
-## Toy model: solution
+## Toy model: solution (Uruguay)
 <div style="font-size:80%">
 ```{r, tidy='styler', fig.height=3}
 map %>% addPolygons(data = buffers, weight = 2, fillOpacity = 0) %>% 
@@ -380,6 +380,76 @@ map %>% addPolygons(data = buffers, weight = 2, fillOpacity = 0) %>%
 ```
 </div>
 
+
+
+## Toy model (Colombia)
+
+<div style="font-size:80%;" heigth='80%'>
+```{r, tidy='styler', message=FALSE, fig.height=3}
+set.seed(123)
+library(rgdal)
+library(raster)
+library(rgeos)
+library(tidyverse)
+colombia <- getData('GADM', country='COL', level=0)
+colombia_projected <- spTransform(colombia, CRS("+init=epsg:3857"))
+forest_projected <- colombia_projected %>% 
+  spsample(400, type = "random") %>% 
+  # build random poisson buffers around them
+  gBuffer(width = 4000*rpois(length(.), 3), byid = TRUE) %>% 
+  gEnvelope(byid = TRUE) %>% # take their envelope
+  gUnaryUnion()
+
+forest_projected <- gIntersection(colombia_projected, forest_projected)
+forest <- spTransform(forest_projected, CRSobj = crs(uruguay))
+```
+</div>
+
+
+## Toy model: landscape (Colombia)
+
+<div style="font-size:80%">
+```{r echo=TRUE}
+library(leaflet)
+map <- leaflet() %>% addTiles() %>% addPolygons(data = colombia, weight = 1) %>% 
+  addPolygons(data = forest, weight = 1, fillColor = "green", color = "darkgreen")
+```
+</div>
+```{r, echo=FALSE, fig.height=3}
+map
+```
+
+
+## Toy model: solution (Colombia)
+<div style="font-size:80%">
+```{r,  tidy='styler'}
+buffers_projected <- colombia_projected %>% 
+  spsample(20, type = "random") %>% gBuffer(width = 30000, byid = TRUE)
+buffers <- spTransform(buffers_projected, CRSobj = crs(colombia))
+# Intersect the buffers with the forest and plot the result
+intersect_projected <- gIntersection(forest_projected, 
+                                     buffers_projected, byid = TRUE)
+intersect <- spTransform(intersect_projected, CRSobj = crs(colombia))
+# Compute the proportion of forested areas within each buffer
+intersections <- gArea(intersect_projected, byid = TRUE) %>% tibble(ID = names(.), Area_intersection = .) %>% separate(ID, into = c("Grid", "ID"))    
+buffers_areas <- gArea(buffers_projected, byid = TRUE) %>% tibble(ID = names(.), Area_buffers = .)     
+proportion <-  left_join(intersections, buffers_areas, by = "ID") %>% 
+  mutate(proportion = Area_intersection/Area_buffers, label = paste0(round(100*proportion,1), "%")) %>%
+  as.data.frame()
+row.names(proportion) <- row.names(intersect)  
+intersect.spdf <- SpatialPolygonsDataFrame(intersect, proportion)
+```
+</div>
+
+## Toy model: solution (Colombia)
+<div style="font-size:80%">
+```{r, tidy='styler', fig.height=3}
+map %>% addPolygons(data = buffers, weight = 2, fillOpacity = 0) %>% 
+  addPolygons(data = intersect.spdf, fillColor = "red", fillOpacity = .9, weight = 2, 
+              label = ~scales::percent(proportion), 
+              labelOptions = labelOptions(opacity = .75, direction = "auto"))
+```
+</div>
 
 
 ## {.off}
